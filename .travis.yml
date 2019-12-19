@@ -15,26 +15,22 @@ env:
 install:
   - python -m pip install --upgrade pip
   - pip install wheel
-
-jobs:
-  include:
-    - stage: app-build
-      script:
-        - cd app
-        - npm install
-        - npm run lint
-        - npm run build
-        - cd ..
-    - stage: api-build
-      script:
-        - cd api
-        - pip install -r requirements.txt
-        - python setup.py bdist_wheel
-        - cd ..
-    - stage: docker-build
-      script:
-        - docker build -t travis-docker-git-ci-cd:latest .
-stages:
-  - app-build
-  - api-build
-  - docker-build
+  - cd app
+  - npm install
+  - cd ..
+  - cd api
+  - pip install -r requirements.txt
+  - cd ..
+script:
+  - echo "building app..."
+  - cd app
+  - npm run lint
+  - npm run build
+  - cd ..
+  - echo "app build successful"
+  - echo "-----------------------"
+  - echo "building API..."
+  - cd api
+  - python setup.py bdist_wheel
+  - cd ..
+  - echo "API build successful"
