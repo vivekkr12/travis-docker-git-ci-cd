@@ -13,21 +13,9 @@ branches:
 env:
   - NODE_OPTIONS="--max_old_space_size=4096"
 install:
-  - python -m pip install --upgrade pip
-  - pip install wheel
-  - cd app
-  - npm install
-  - cd ..
-  - cd api
-  - pip install -r requirements.txt
-  - cd ..
+  - bash build.sh install
 script:
-  - cd app
-  - npm run lint
-  - npm run build
-  - cd ..
-  - cd api
-  - python setup.py bdist_wheel
-  - cd ..
-before_deploy:
-  - docker build -t travis-docker-git-ci-cd:$TRAVIS_COMMIT .
+  - bash build.sh package
+deploy:
+  provider: script
+  script: bash build.sh deploy
