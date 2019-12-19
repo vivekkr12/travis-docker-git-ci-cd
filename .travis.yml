@@ -31,6 +31,10 @@ jobs:
         - pip install -r requirements.txt
         - python setup.py bdist_wheel
         - cd ..
+    - stage: docker-build
+      script:
+        - docker build -t travis-docker-git-ci-cd:latest .
 stages:
   - app-build
   - api-build
+  - docker-build
