@@ -69,7 +69,7 @@ update_version() {
   git add app/package-lock.json
   git add api/api/__init__.py
   git commit -m "auto update version to $new_version, travis build: $TRAVIS_BUILD_NUMBER"
-
+  echo "commited after version update"
 }
 
 deploy() {
