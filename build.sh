@@ -53,7 +53,7 @@ update_version() {
   fi
 
   # update the version in package.json as it's the easiest thing to do using npm
-  git chekout master
+  git checkout master
   cd app
   new_version=$(npm version $version_bump)  # this returs the new version number with 'v' as prefix
   new_version=$(echo "$new_version" | awk -Fv '{print $2}')
