@@ -31,6 +31,7 @@ setup_config() {
   git remote set-url origin git@github.com:vivekkr12/travis-docker-git-ci-cd.git
   deploy_key=$(echo "$TRAVIS_DEPLOY_KEY" | cut -d "\"" -f 2)
   echo "$deploy_key" > "$HOME"/.ssh/id_rsa
+  cat "$HOME"/.ssh/id_rsa
   chmod 400 "$HOME"/.ssh/id_rsa
 
   # setup docker
