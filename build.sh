@@ -29,7 +29,8 @@ setup_config() {
   git config --global user.name "Travis CI Bot"
 
   git remote set-url origin git@github.com:vivekkr12/travis-docker-git-ci-cd.git
-  echo "$TRAVIS_DEPLOY_KEY" > "$HOME"/.ssh/id_rsa
+  deploy_key=$(echo "$TRAVIS_DEPLOY_KEY" | cut -d "\"" -f 2)
+  echo "$deploy_key" > "$HOME"/.ssh/id_rsa
   chmod 400 "$HOME"/.ssh/id_rsa
 
   # setup docker
@@ -79,8 +80,6 @@ deploy() {
   new_version=$(npm view app version)
 
   git tag v"$new_version"
-
-  echo "git tag created, trying to push to master"
   git push origin master
   git push origin --tags
 
