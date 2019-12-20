@@ -28,11 +28,7 @@ setup_config() {
   git config --global user.email "fake@travis-bot"
   git config --global user.name "Travis CI Bot"
 
-  git remote set-url origin git@github.com:vivekkr12/travis-docker-git-ci-cd.git
-  deploy_key=${TRAVIS_DEPLOY_KEY:1:-1}
-  echo "$deploy_key" > "$HOME"/.ssh/id_rsa
-  cat "$HOME"/.ssh/id_rsa
-  chmod 400 "$HOME"/.ssh/id_rsa
+  git remote set-url origin https://"$GITHUB_USER_NAME":"$GITHUB_ACCESS_TOKEN"@github.com/vivekkr12/travis-docker-git-ci-cd.git
 
   # setup docker
   echo "$TRAVIS_DOCKER_PASSWORD" | docker login -u "$TRAVIS_DOCKER_USERNAME" --password-stdin
