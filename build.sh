@@ -29,7 +29,7 @@ setup_config() {
   git config --global user.name "Travis CI Bot"
 
   git remote set-url origin git@github.com:vivekkr12/travis-docker-git-ci-cd.git
-  deploy_key=$(echo "$TRAVIS_DEPLOY_KEY" | cut -d "\"" -f 2)
+  deploy_key=${TRAVIS_DEPLOY_KEY:1:-1}
   echo "$deploy_key" > "$HOME"/.ssh/id_rsa
   cat "$HOME"/.ssh/id_rsa
   chmod 400 "$HOME"/.ssh/id_rsa
@@ -59,7 +59,7 @@ update_version() {
 
   # update the version in package.json as it's the easiest thing to do using npm
   cd app
-  new_version=$(npm version $version_bump)  # this returs the new versio number with 'v' as prefix
+  new_version=$(npm version $version_bump)  # this returs the new version number with 'v' as prefix
   new_version=$(echo "$new_version" | awk -Fv '{print $2}')
   cd ..
   cd api
