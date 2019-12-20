@@ -36,6 +36,7 @@ setup_config() {
 
 update_version() {
   # get the version bump part from commit message
+  echo "$TRAVIS_COMMIT_MESSAGE"
   release_part=$(echo "$TRAVIS_COMMIT_MESSAGE" | awk -F# '{print $NF}' | awk -F= '{print $1}')
   if [ "$release_part" = "release" ]; then
       version_part=$(echo "$TRAVIS_COMMIT_MESSAGE" | awk -F# '{print $NF}' | awk -F= '{print $2}')
@@ -68,17 +69,16 @@ update_version() {
   git add api/api/__init__.py
   git commit -m "auto update version to $new_version, travis build: $TRAVIS_BUILD_NUMBER"
   echo "commited after version update"
+  git push origin master
+  git tag v"$new_version"
+  git push origin --tags
+  echo "pushed new version to master"
 }
 
 deploy() {
   setup_config
   update_version
   docker build -t travis-docker-git-ci-cd:"$TRAVIS_COMMIT" .
-  new_version=$(npm view app version)
-
-  git tag v"$new_version"
-  git push origin master
-  git push origin --tags
 
   docker tag travis-docker-git-ci-cd:"$TRAVIS_COMMIT" vivekkr12/travis-docker-git-ci-cd:"$TRAVIS_COMMIT"
   docker tag travis-docker-git-ci-cd:"$TRAVIS_COMMIT" vivekkr12/travis-docker-git-ci-cd:"$new_version"
