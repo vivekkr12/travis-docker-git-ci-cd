@@ -36,7 +36,6 @@ setup_config() {
 
 update_version() {
   # get the version bump part from commit message
-  TRAVIS_COMMIT_MESSAGE="Merge pull request #88 from OutdoorRD/misc #release=minor"
   release_part=$(echo "$TRAVIS_COMMIT_MESSAGE" | awk -F# '{print $NF}' | awk -F= '{print $1}')
   if [ "$release_part" = "release" ]; then
       version_part=$(echo "$TRAVIS_COMMIT_MESSAGE" | awk -F# '{print $NF}' | awk -F= '{print $2}')
@@ -54,6 +53,7 @@ update_version() {
   fi
 
   # update the version in package.json as it's the easiest thing to do using npm
+  git chekout master
   cd app
   new_version=$(npm version $version_bump)  # this returs the new version number with 'v' as prefix
   new_version=$(echo "$new_version" | awk -Fv '{print $2}')
