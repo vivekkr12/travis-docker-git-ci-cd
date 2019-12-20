@@ -63,14 +63,17 @@ update_version() {
   cd api
   sed -i "s/__version__.*/__version__ = '$new_version'/" api/__init__.py
   cd ..
-  echo "local version bump successful"
+  echo "local version bump successful $new_version"
 
-  git commit -m "update version to $new_version, travis build: $TRAVIS_BUILD_NUMBER"
+  git add app/package.json
+  git add app/package-lock.json
+  git add api/api/__init__.py
+  git commit -m "auto update version to $new_version, travis build: $TRAVIS_BUILD_NUMBER"
 
 }
 
 deploy() {
-  setup_git
+  setup_config
   update_version
   docker build -t travis-docker-git-ci-cd:"$TRAVIS_COMMIT" .
   new_version=$(npm view app version)
