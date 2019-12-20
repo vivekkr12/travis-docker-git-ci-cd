@@ -79,6 +79,8 @@ deploy() {
   new_version=$(npm view app version)
 
   git tag v"$new_version"
+
+  echo "git tag created, trying to push to master"
   git push origin master
   git push origin --tags
 
