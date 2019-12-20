@@ -37,18 +37,12 @@ setup_config() {
 update_version() {
   # get the version bump part from commit message
   echo "$TRAVIS_COMMIT_MESSAGE"
-  release_part=$(echo "$TRAVIS_COMMIT_MESSAGE" | awk -F# '{print $NF}' | awk -F= '{print $1}')
-  if [ "$release_part" = "release" ]; then
-      version_part=$(echo "$TRAVIS_COMMIT_MESSAGE" | awk -F# '{print $NF}' | awk -F= '{print $2}')
-      if [ "$version_part" = "major" ]; then
-        version_bump="major"
-      elif [ "$version_part" = "minor" ]; then
-        version_bump="minor"
-      elif [ "$version_part" = "patch" ]; then
-        version_bump="patch"
-      else
-        version_bump="patch"
-      fi
+  if [[ "$TRAVIS_COMMIT_MESSAGE" == *"release=major"* ]]; then
+    version_bump="major"
+  elif [[ "$TRAVIS_COMMIT_MESSAGE" == *"release=minor"* ]]; then
+    version_bump="minor"
+  elif [[ "$TRAVIS_COMMIT_MESSAGE" == *"release=patch"* ]]; then
+    version_bump="patch"
   else
     version_bump="patch"
   fi
