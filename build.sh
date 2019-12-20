@@ -36,7 +36,6 @@ setup_config() {
 
 update_version() {
   # get the version bump part from commit message
-  TRAVIS_COMMIT_MESSAGE="Merge pull request #88 from OutdoorRD/misc #release=minor"
   release_part=$(echo "$TRAVIS_COMMIT_MESSAGE" | awk -F# '{print $NF}' | awk -F= '{print $1}')
   if [ "$release_part" = "release" ]; then
       version_part=$(echo "$TRAVIS_COMMIT_MESSAGE" | awk -F# '{print $NF}' | awk -F= '{print $2}')
